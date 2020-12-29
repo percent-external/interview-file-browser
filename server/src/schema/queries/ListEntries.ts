@@ -25,3 +25,8 @@ export const ListEntries = gql`
     }
   }
 `;
+
+
+
+
+
