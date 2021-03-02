@@ -15,12 +15,18 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   listEntries?: Maybe<ListEntriesResult>;
+  entriesSummary?: Maybe<SummaryResult>;
 };
 
 
 export type QueryListEntriesArgs = {
   path: Scalars['String'];
   page?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryEntriesSummaryArgs = {
+  path: Scalars['String'];
 };
 
 export type Pagination = {
@@ -35,6 +41,12 @@ export type ListEntriesResult = {
   __typename?: 'ListEntriesResult';
   pagination: Pagination;
   entries: Array<Maybe<Entry>>;
+};
+
+export type SummaryResult = {
+  __typename?: 'SummaryResult';
+  totalNumberOfFiles?: Maybe<Scalars['Int']>;
+  totalSize?: Maybe<Scalars['Int']>;
 };
 
 export type File = {
@@ -53,10 +65,7 @@ export type Directory = {
 
 export type Entry = File | Directory;
 
-
-
 export type ResolverTypeWrapper<T> = Promise<T> | T;
-
 
 export type LegacyStitchingResolver<TResult, TParent, TContext, TArgs> = {
   fragment: string;
@@ -136,6 +145,7 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Pagination: ResolverTypeWrapper<Pagination>;
   ListEntriesResult: ResolverTypeWrapper<Omit<ListEntriesResult, 'entries'> & { entries: Array<Maybe<ResolversTypes['Entry']>> }>;
+  SummaryResult: ResolverTypeWrapper<SummaryResult>;
   File: ResolverTypeWrapper<File>;
   Directory: ResolverTypeWrapper<Directory>;
   Entry: ResolversTypes['File'] | ResolversTypes['Directory'];
@@ -149,6 +159,7 @@ export type ResolversParentTypes = {
   Int: Scalars['Int'];
   Pagination: Pagination;
   ListEntriesResult: Omit<ListEntriesResult, 'entries'> & { entries: Array<Maybe<ResolversParentTypes['Entry']>> };
+  SummaryResult: SummaryResult;
   File: File;
   Directory: Directory;
   Entry: ResolversParentTypes['File'] | ResolversParentTypes['Directory'];
@@ -157,6 +168,7 @@ export type ResolversParentTypes = {
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   listEntries?: Resolver<Maybe<ResolversTypes['ListEntriesResult']>, ParentType, ContextType, RequireFields<QueryListEntriesArgs, 'path'>>;
+  entriesSummary?: Resolver<Maybe<ResolversTypes['SummaryResult']>, ParentType, ContextType, RequireFields<QueryEntriesSummaryArgs, 'path'>>;
 };
 
 export type PaginationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Pagination'] = ResolversParentTypes['Pagination']> = {
@@ -170,6 +182,12 @@ export type PaginationResolvers<ContextType = any, ParentType extends ResolversP
 export type ListEntriesResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['ListEntriesResult'] = ResolversParentTypes['ListEntriesResult']> = {
   pagination?: Resolver<ResolversTypes['Pagination'], ParentType, ContextType>;
   entries?: Resolver<Array<Maybe<ResolversTypes['Entry']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
+export type SummaryResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['SummaryResult'] = ResolversParentTypes['SummaryResult']> = {
+  totalNumberOfFiles?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  totalSize?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
@@ -195,6 +213,7 @@ export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
   Pagination?: PaginationResolvers<ContextType>;
   ListEntriesResult?: ListEntriesResultResolvers<ContextType>;
+  SummaryResult?: SummaryResultResolvers<ContextType>;
   File?: FileResolvers<ContextType>;
   Directory?: DirectoryResolvers<ContextType>;
   Entry?: EntryResolvers;

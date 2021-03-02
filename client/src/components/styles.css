@@ -1,0 +1,13 @@
+.children {
+  margin-left: 20px;
+}
+
+.button-group {
+  text-align: left;
+  margin-left: 20px;
+}
+
+.file {
+  display: flex;
+  justify-content: space-around;
+}

@@ -1,8 +1,9 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export const typeDefs = gql`
   type Query {
     listEntries(path: String!, page: Int): ListEntriesResult
+    entriesSummary(path: String!): SummaryResult
   }
 
   type Pagination {
@@ -15,6 +16,11 @@ export const typeDefs = gql`
   type ListEntriesResult {
     pagination: Pagination!
     entries: [Entry]!
+  }
+
+  type SummaryResult {
+    totalNumberOfFiles: Int
+    totalSize: Int
   }
 
   type File {

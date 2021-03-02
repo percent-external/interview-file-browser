@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { Card } from "@material-ui/core";
-import logo from "./logo.svg";
 import "./App.css";
 import { useListEntriesQuery } from "./generated-api";
+import { Folder } from "./components/Folder";
+import { File } from "./components/File";
+import { Summary } from "./components/Summary";
 
-const StyledHelloCard = styled(Card)`
+export const StyledCard = styled(Card)`
   border: 1px solid gray;
   width: 300px;
   padding: 8px;
@@ -17,23 +19,25 @@ function App() {
     variables: { path: "/" },
   });
 
+  if (loading) {
+    return <div>...Loading</div>;
+  }
+
+  if (error) {
+    return <div>Error</div>;
+  }
+
   return (
     <div className="App">
-      <StyledHelloCard>hello</StyledHelloCard>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Summary path={"/"} />
+      {data?.listEntries?.entries.map((entry, index) => {
+        switch (entry?.__typename) {
+          case "Directory":
+            return <Folder key={index} {...entry} />;
+          case "File":
+            return <File key={index} {...entry} />;
+        }
+      })}
     </div>
   );
 }
