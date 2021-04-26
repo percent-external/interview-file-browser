@@ -61,4 +61,3 @@ These are not required but if you found this exercise to be easy or doesn't show
 * The data model could be extended in interesting ways.
 * Maybe something should happen when you click a file?
 
-test
