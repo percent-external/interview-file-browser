@@ -60,3 +60,5 @@ These are not required but if you found this exercise to be easy or doesn't show
 * What about making the current directory bookmarkable/allow the browser forward & back buttons to work?
 * The data model could be extended in interesting ways.
 * Maybe something should happen when you click a file?
+
+test
